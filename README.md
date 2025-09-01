@@ -22,7 +22,7 @@ Um site simples e estilizado que exibe o horóscopo diário, de amanhã ou da se
 ## 💻 Como usar
 
 1. Acesse o site online via GitHub Pages:  
-   [https://seu-usuario.github.io/horoscopo-site/](https://seu-usuario.github.io/horoscopo-site/)  
+   [https://seu-usuario.github.io/horoscopo-site/](https://markbhz.github.io/horoscopo-site/)  
    *(Substitua `seu-usuario` pelo seu usuário do GitHub)*
 
 2. Selecione seu **signo**.  
