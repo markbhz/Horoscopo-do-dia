@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Horóscopo do Dia</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #3a0ca3, #7209b7);
+      margin: 0;
+      padding: 20px;
+      color: #fff;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background: rgba(255,255,255,0.1);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+
+    h1 {
+      color: #ffd700;
+      margin-bottom: 20px;
+    }
+
+    select, button {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    select {
+      background: #fff;
+      color: #333;
+    }
+
+    button {
+      background: #ffd700;
+      color: #3a0ca3;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    button:hover:not(:disabled) {
+      transform: scale(1.05);
+    }
+
+    .resposta {
+      margin-top: 20px;
+      padding: 15px;
+      background: rgba(0,0,0,0.3);
+      border-radius: 12px;
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .resposta h3 {
+      color: #ffd700;
+      margin-bottom: 10px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    #status {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #ffd700;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔮 Horóscopo</h1>
+
+    <select id="signo">
+      <option value="">Selecione seu signo</option>
+      <option>Áries</option><option>Touro</option><option>Gêmeos</option>
+      <option>Câncer</option><option>Leão</option><option>Virgem</option>
+      <option>Libra</option><option>Escorpião</option><option>Sagitário</option>
+      <option>Capricórnio</option><option>Aquário</option><option>Peixes</option>
+    </select>
+
+    <select id="periodo">
+      <option value="hoje">Hoje</option>
+      <option value="amanhã">Amanhã</option>
+      <option value="semana">Semana</option>
+    </select>
+
+    <button id="btnVer">Ver Horóscopo</button>
+    <div id="status"></div>
+
+    <div class="resposta" id="resposta">
+      <h3 id="titulo"></h3>
+      <p id="texto"></p>
+      <button id="btnCopiar" disabled>📋 Copiar Horóscopo</button>
+    </div>
+  </div>
+
+  <script>
+    const btn = document.getElementById("btnVer");
+    const status = document.getElementById("status");
+    const resposta = document.getElementById("resposta");
+    const titulo = document.getElementById("titulo");
+    const texto = document.getElementById("texto");
+    const btnCopiar = document.getElementById("btnCopiar");
+
+    btn.addEventListener("click", async () => {
+      const signo = document.getElementById("signo").value;
+      const periodo = document.getElementById("periodo").value;
+      if (!signo) { alert("Escolha um signo!"); return; }
+
+      status.textContent = "✨ Consultando os astros...";
+      resposta.style.display = "none";
+      btn.disabled = true;
+
+      try {
+        const apiKey = localStorage.getItem("OPENAI_KEY") || prompt("Digite sua API Key:");
+        localStorage.setItem("OPENAI_KEY", apiKey);
+
+        const r = await fetch("https://api.openai.com/v1/chat/completions", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Authorization": `Bearer ${apiKey}` },
+          body: JSON.stringify({
+            model: "gpt-4o-mini",
+            messages: [
+              { role: "system", content: "Você é um astrólogo que escreve horóscopos curtos e positivos." },
+              { role: "user", content: `Horóscopo de ${periodo} para ${signo}, em português.` }
+            ]
+          })
+        });
+
+        const data = await r.json();
+        if (data.error) throw new Error(data.error.message);
+
+        titulo.textContent = `Horóscopo de ${signo} (${periodo})`;
+        texto.textContent = data.choices[0].message.content;
+        resposta.style.display = "block";
+        btnCopiar.disabled = false;
+
+      } catch (err) { alert("Erro: " + err.message); }
+      finally { btn.disabled = false; status.textContent = ""; }
+    });
+
+    btnCopiar.addEventListener("click", async () => {
+      await navigator.clipboard.writeText(`${titulo.textContent}\n\n${texto.textContent}`);
+      btnCopiar.textContent = "✅ Copiado!";
+      setTimeout(() => btnCopiar.textContent = "📋 Copiar Horóscopo", 2000);
+    });
+  </script>
+</body>
+</html>
