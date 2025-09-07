@@ -1,168 +1,303 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Horóscopo do Dia</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #3a0ca3, #7209b7);
-      margin: 0;
-      padding: 20px;
-      color: #fff;
-      text-align: center;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horóscopo do Dia com Gemini</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
-    .container {
-      max-width: 500px;
-      margin: auto;
-      background: rgba(255,255,255,0.1);
-      padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-    }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(180deg, #6a0dad, #4f0081);
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
 
-    h1 {
-      color: #ffd700;
-      margin-bottom: 20px;
-    }
+        .container {
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 2rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            padding: 2.5rem 2rem;
+            max-width: 480px;
+            width: 90%;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
 
-    select, button {
-      width: 100%;
-      padding: 12px;
-      margin: 8px 0;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-    }
+        .crystal-ball {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
 
-    select {
-      background: #fff;
-      color: #333;
-    }
+        .main-title {
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
 
-    button {
-      background: #ffd700;
-      color: #3a0ca3;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.2s;
-    }
+        .select-group {
+            margin-bottom: 1rem;
+        }
+        
+        .select-group select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 9999px;
+            border: 1px solid #d1d5db;
+            background-color: #f9fafb;
+            color: #1f2937;
+            font-size: 1rem;
+            outline: none;
+            cursor: pointer;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%236b7280'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd' /%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1.25em;
+        }
 
-    button:disabled {
-      background: #ccc;
-      cursor: not-allowed;
-    }
+        .action-button {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1f2937;
+            background-color: #fcd34d;
+            border: none;
+            border-radius: 9999px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
 
-    button:hover:not(:disabled) {
-      transform: scale(1.05);
-    }
+        .action-button:hover {
+            background-color: #fbbf24;
+            transform: translateY(-2px);
+        }
 
-    .resposta {
-      margin-top: 20px;
-      padding: 15px;
-      background: rgba(0,0,0,0.3);
-      border-radius: 12px;
-      display: none;
-      animation: fadeIn 0.5s ease;
-    }
+        .result-container {
+            margin-top: 1.5rem;
+        }
 
-    .resposta h3 {
-      color: #ffd700;
-      margin-bottom: 10px;
-    }
+        .result-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+        .horoscope-text {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 1.25rem;
+            border-radius: 1rem;
+            font-style: italic;
+            font-size: 1rem;
+            line-height: 1.5;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 1rem;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 1rem;
+        }
 
-    #status {
-      margin-top: 10px;
-      font-size: 14px;
-      color: #ffd700;
-    }
-  </style>
+        .copy-button, .share-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background-color: #fcd34d;
+            color: #1f2937;
+            padding: 1rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: 700;
+            border: none;
+            flex-grow: 1;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .copy-button:hover, .share-button:hover {
+            background-color: #fbbf24;
+            transform: translateY(-2px);
+        }
+
+        .loading {
+            margin-top: 2rem;
+            font-weight: 600;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>🔮 Horóscopo</h1>
 
-    <select id="signo">
-      <option value="">Selecione seu signo</option>
-      <option>Áries</option><option>Touro</option><option>Gêmeos</option>
-      <option>Câncer</option><option>Leão</option><option>Virgem</option>
-      <option>Libra</option><option>Escorpião</option><option>Sagitário</option>
-      <option>Capricórnio</option><option>Aquário</option><option>Peixes</option>
-    </select>
+    <div class="container">
+        <div class="crystal-ball">🔮</div>
+        <h1 class="main-title">Horóscopo do Dia</h1>
 
-    <select id="periodo">
-      <option value="hoje">Hoje</option>
-      <option value="amanhã">Amanhã</option>
-      <option value="semana">Semana</option>
-    </select>
+        <div class="select-group">
+            <select id="signo-select">
+                <option value="">Selecione seu signo</option>
+                <option value="aries">Áries</option>
+                <option value="touro">Touro</option>
+                <option value="gemeos">Gêmeos</option>
+                <option value="cancer">Câncer</option>
+                <option value="leao">Leão</option>
+                <option value="virgem">Virgem</option>
+                <option value="libra">Libra</option>
+                <option value="escorpiao">Escorpião</option>
+                <option value="sagitario">Sagitário</option>
+                <option value="capricornio">Capricórnio</option>
+                <option value="aquario">Aquário</option>
+                <option value="peixes">Peixes</option>
+            </select>
+        </div>
 
-    <button id="btnVer">Ver Horóscopo</button>
-    <div id="status"></div>
+        <button id="ver-horoscopo-btn" class="action-button">Ver Horóscopo</button>
 
-    <div class="resposta" id="resposta">
-      <h3 id="titulo"></h3>
-      <p id="texto"></p>
-      <button id="btnCopiar" disabled>📋 Copiar Horóscopo</button>
+        <div id="initial-message" class="result-container">
+            <p>Selecione seu signo e clique no botão acima.</p>
+        </div>
+
+        <div id="loading" class="loading hidden">
+            <p>Gerando seu horóscopo...</p>
+        </div>
+
+        <div id="horoscopo-result" class="result-container hidden">
+            <h2 id="result-title" class="result-title"></h2>
+            <p id="horoscopo-text" class="horoscope-text"></p>
+            <div class="button-group">
+                <button id="copiar-horoscopo-btn" class="copy-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-copy"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h9"/><path d="m15 8-3 3 3 3"/></svg>
+                    Copiar
+                </button>
+                <button id="compartilhar-btn" class="share-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-share2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/></svg>
+                    Compartilhar
+                </button>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <script>
-    const btn = document.getElementById("btnVer");
-    const status = document.getElementById("status");
-    const resposta = document.getElementById("resposta");
-    const titulo = document.getElementById("titulo");
-    const texto = document.getElementById("texto");
-    const btnCopiar = document.getElementById("btnCopiar");
+    <script>
+        const apiKey = "";
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
 
-    btn.addEventListener("click", async () => {
-      const signo = document.getElementById("signo").value;
-      const periodo = document.getElementById("periodo").value;
-      if (!signo) { alert("Escolha um signo!"); return; }
+        document.getElementById("ver-horoscopo-btn").addEventListener("click", gerarHoroscopo);
+        document.getElementById("copiar-horoscopo-btn").addEventListener("click", copiarHoroscopo);
+        document.getElementById("compartilhar-btn").addEventListener("click", compartilharHoroscopo);
 
-      status.textContent = "✨ Consultando os astros...";
-      resposta.style.display = "none";
-      btn.disabled = true;
+        async function gerarHoroscopo() {
+            const selectElement = document.getElementById("signo-select");
+            const signo = selectElement.value;
+            const horoscopoResult = document.getElementById("horoscopo-result");
+            const initialMessage = document.getElementById("initial-message");
+            const loading = document.getElementById("loading");
 
-      try {
-        const apiKey = localStorage.getItem("OPENAI_KEY") || prompt("Digite sua API Key:");
-        localStorage.setItem("OPENAI_KEY", apiKey);
+            if (!signo) {
+                return;
+            }
 
-        const r = await fetch("https://api.openai.com/v1/chat/completions", {
-          method: "POST",
-          headers: { "Content-Type": "application/json", "Authorization": `Bearer ${apiKey}` },
-          body: JSON.stringify({
-            model: "gpt-4o-mini",
-            messages: [
-              { role: "system", content: "Você é um astrólogo que escreve horóscopos curtos e positivos." },
-              { role: "user", content: `Horóscopo de ${periodo} para ${signo}, em português.` }
-            ]
-          })
-        });
+            horoscopoResult.classList.add('hidden');
+            initialMessage.classList.add('hidden');
+            loading.classList.remove('hidden');
 
-        const data = await r.json();
-        if (data.error) throw new Error(data.error.message);
+            const signosMap = {
+                aries: 'Áries', touro: 'Touro', gemeos: 'Gêmeos', cancer: 'Câncer',
+                leao: 'Leão', virgem: 'Virgem', libra: 'Libra', escorpiao: 'Escorpião',
+                sagitario: 'Sagitário', capricornio: 'Capricórnio', aquario: 'Aquário',
+                peixes: 'Peixes'
+            };
+            
+            const signoNome = signosMap[signo];
+            const prompt = `Gere um horóscopo do dia para o signo de ${signoNome}. O horóscopo deve ser conciso, inspirador e focado em um aspecto como amor, trabalho ou sorte.`;
 
-        titulo.textContent = `Horóscopo de ${signo} (${periodo})`;
-        texto.textContent = data.choices[0].message.content;
-        resposta.style.display = "block";
-        btnCopiar.disabled = false;
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }],
+                systemInstruction: {
+                    parts: [{ text: "Atue como um astrólogo. Forneça horóscopos otimistas e inspiradores, em português, com um tom acolhedor e positivo." }]
+                }
+            };
+            
+            let retryCount = 0;
+            const maxRetries = 3;
+            let success = false;
 
-      } catch (err) { alert("Erro: " + err.message); }
-      finally { btn.disabled = false; status.textContent = ""; }
-    });
+            while (retryCount < maxRetries && !success) {
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
 
-    btnCopiar.addEventListener("click", async () => {
-      await navigator.clipboard.writeText(`${titulo.textContent}\n\n${texto.textContent}`);
-      btnCopiar.textContent = "✅ Copiado!";
-      setTimeout(() => btnCopiar.textContent = "📋 Copiar Horóscopo", 2000);
-    });
-  </script>
+                    if (!response.ok) {
+                        if (response.status === 429) {
+                            await new Promise(res => setTimeout(res, Math.pow(2, retryCount) * 1000));
+                            retryCount++;
+                            continue;
+                        } else {
+                            throw new Error(`Erro na API: ${response.status} ${response.statusText}`);
+                        }
+                    }
+
+                    const result = await response.json();
+                    const text = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+                    if (text) {
+                        document.getElementById("result-title").innerText = `Horóscopo de ${signoNome}`;
+                        document.getElementById("horoscopo-text").innerText = text;
+                        horoscopoResult.classList.remove('hidden');
+                        success = true;
+                    } else {
+                        throw new Error('Resposta da API inválida.');
+                    }
+                } catch (error) {
+                    console.error('Falha ao gerar o horóscopo:', error);
+                    document.getElementById("result-title").innerText = `Horóscopo de ${signoNome}`;
+                    document.getElementById("horoscopo-text").innerText = 'Não foi possível gerar o horóscopo. Tente novamente mais tarde.';
+                    horoscopoResult.classList.remove('hidden');
+                    success = true;
+                }
+            }
+
+            loading.classList.add('hidden');
+        }
+
+        function copiarHoroscopo() {
+            const textToCopy = document.getElementById("horoscopo-text").innerText;
+            const tempInput = document.createElement("textarea");
+            tempInput.value = textToCopy;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+        }
+
+        function compartilharHoroscopo() {
+            const signoNome = document.getElementById("result-title").innerText.replace('Horóscopo de ', '');
+            const horoscopoText = document.getElementById("horoscopo-text").innerText;
+            const shareData = {
+                title: `Horóscopo do Dia para ${signoNome}`,
+                text: horoscopoText,
+                url: window.location.href
+            };
+
+            if (navigator.share) {
+                navigator.share(shareData).catch(error => console.error('Erro ao compartilhar:', error));
+            } else {
+                console.log('API de compartilhamento não suportada no seu navegador.');
+            }
+        }
+    </script>
 </body>
 </html>
