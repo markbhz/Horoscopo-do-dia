@@ -1,49 +1,47 @@
-# 🔮 Horóscopo do Dia
-
-Bem-vindo ao **Horóscopo do Dia**!  
-Um site simples e estilizado que exibe o horóscopo diário, de amanhã ou da semana para cada signo do zodíaco, usando a **API da OpenAI**.
+🔮 Horóscopo do Dia
+Bem-vindo ao Horóscopo do Dia!
+Um site simples e estilizado que exibe o horóscopo diário para cada signo do zodíaco, usando a API do Gemini.
 
 🌟 Ideal para consultar seu horóscopo de forma rápida e bonita.
 
----
+✨ Funcionalidades
+♈ Áries, ♉ Touro, ♊ Gêmeos, ♋ Câncer, ♌ Leão, ♍ Virgem, ♎ Libra, ♏ Escorpião, ♐ Sagitário, ♑ Capricórnio, ♒ Aquário, ♓ Peixes
 
-## ✨ Funcionalidades
+Exibe o horóscopo correspondente.
 
-- ♈ **Áries**, ♉ **Touro**, ♊ **Gêmeos**, ♋ **Câncer**, ♌ **Leão**, ♍ **Virgem**  
-- ♎ **Libra**, ♏ **Escorpião**, ♐ **Sagitário**, ♑ **Capricórnio**, ♒ **Aquário**, ♓ **Peixes**  
-- Escolha do **período**: Hoje, Amanhã ou Semana  
-- Exibe o horóscopo correspondente  
-- Botão **📋 Copiar Horóscopo**  
-- Layout roxo e dourado, responsivo para celular e desktop  
-- Animações suaves na exibição do horóscopo  
+Botão 📋 Copiar Horóscopo.
 
----
+Layout roxo e dourado, responsivo para celular e desktop.
 
-## 💻 Como usar
+Animações suaves na exibição do horóscopo.
 
-1. Acesse o site online via GitHub Pages:  
-   [https://seu-usuario.github.io/horoscopo-site/](https://markbhz.github.io/horoscopo-site/)  
-   *(Substitua `seu-usuario` pelo seu usuário do GitHub)*
+💻 Como usar
+Acesse o site online.
 
-2. Selecione seu **signo**.  
-3. Escolha o **período** desejado.  
-4. Clique em **Ver Horóscopo**.  
-5. Para copiar o horóscopo, clique no botão **📋 Copiar Horóscopo**.  
+Selecione seu signo.
 
-> 💡 Na primeira vez, o site pedirá a **API Key da OpenAI**, que será salva no navegador.
+Clique em Ver Horóscopo.
 
----
+Para copiar o horóscopo, clique no botão 📋 Copiar Horóscopo.
 
-## 🛠 Tecnologias utilizadas
+🛠 Tecnologias utilizadas
+HTML5
 
-- **HTML5**  
-- **CSS3**  
-- **JavaScript**  
-- **API da OpenAI** (GPT-4o-mini)  
+CSS3
 
----
+JavaScript
 
-## 📂 Estrutura do projeto
+API do Gemini (gemini-2.5-flash-preview-05-20)
 
+📂 Estrutura do projeto
+O projeto é composto por um único arquivo para simplicidade e portabilidade, seguindo as melhores práticas de desenvolvimento em Canvas.
 
+index.html
 
+Este arquivo contém:
+
+Toda a estrutura HTML.
+
+Os estilos CSS embutidos na tag <style>.
+
+A lógica JavaScript na tag <script>.
